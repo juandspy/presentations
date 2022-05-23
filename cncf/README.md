@@ -106,3 +106,26 @@ oc project openshift-insights
 io_pod=$(oc get pods | tail -n1 | awk '{print $1;}')
 oc delete pod $io_pod
 ```
+
+## 5. Clean up the cluster
+
+### 5.1 Destroy the projects (in case you don't want to destroy the whole cluster)
+
+Delete the projects:
+```
+oc delete project/project
+oc delete project/project-copy
+```
+
+Get the host subnets to the original state (use the nodes from the previous step):
+```
+oc get hostsubnet
+oc patch hostsubnet ip-10-0-216-180.us-east-2.compute.internal --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
+oc patch hostsubnet ip-10-0-190-250.us-east-2.compute.internal --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
+```
+
+### 5.2 Destroy the cluster
+
+```
+./openshift-install destroy cluster --dir=<installation_directory> --log-level=info
+```
