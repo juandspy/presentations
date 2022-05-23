@@ -14,14 +14,7 @@ Follow [Installing a cluster quickly on AWS
 But it's recommended to follow the instructions to check that all prerequisites are configured.
 
 
-This command will deploy a cluster in AWS and will last 72 hours. You may have to wait for ~#TODO: minutes for the cluster to be up ad running. Once deployed you will have access to the cluster's console
-
-User and pass is:
-
-- kubeadmin
-- SjxDs-Wguyr-r7k6s-gjVHN
-
-Console URL is https://console-openshift-console.apps.cncf-demo.jdiazsua.19-05-2022.ccxdev.devshift.net.
+This command will deploy a cluster in AWS and will last 72 hours. You may have to wait for ~30 minutes for the cluster to be up ad running. Once deployed you will have access to the cluster's console. The user, pass and console URL are shown in the output.
 
 ## 2. Explore the OpenShift console
 
@@ -34,7 +27,7 @@ In the home page, if you pressed on "Insights" you may find some firing alerts. 
 1. Start using a dedicated namespace for this demo:
 ```
 ❯ oc new-project cncf-demo
-Now using project "cncf-demo" on server "https://api.cncf-demo.jdiazsua.19-05-2022.ccxdev.devshift.net:6443".
+Now using project "cncf-demo" on server "https://api.cncf-demo.{CLUSTER_URL}".
 
 You can add applications to this project with the 'new-app' command. For example, try:
 
@@ -97,8 +90,8 @@ ip-10-0-216-180.us-east-2.compute.internal   Ready     worker    103m      v1.22
 for example `ip-10-0-216-180.us-east-2.compute.internal` and `ip-10-0-190-250.us-east-2.compute.internal`.
 2. Assign them two different egress IPs:
 ```
-oc patch hostsubnet ip-10-0-216-180.us-east-2.compute.internal --type=merge -p '{"egressIPs": ["192.168.1.99"]}'
-oc patch hostsubnet ip-10-0-190-250.us-east-2.compute.internal --type=merge -p '{"egressIPs": ["192.168.1.100"]}'
+oc patch hostsubnet <node1> --type=merge -p '{"egressIPs": ["192.168.1.99"]}'
+oc patch hostsubnet <node2> --type=merge -p '{"egressIPs": ["192.168.1.100"]}'
 ```
 3. Refresh the advisor:
 ```
@@ -120,8 +113,8 @@ oc delete project/project-copy
 Get the host subnets to the original state (use the nodes from the previous step):
 ```
 oc get hostsubnet
-oc patch hostsubnet ip-10-0-216-180.us-east-2.compute.internal --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
-oc patch hostsubnet ip-10-0-190-250.us-east-2.compute.internal --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
+oc patch hostsubnet <node1> --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
+oc patch hostsubnet <node2> --type=json -p '[{"op": "remove", "path": "/egressIPs"}]'
 ```
 
 ### 5.2 Destroy the cluster
