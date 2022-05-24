@@ -39,8 +39,11 @@ to build a new example application in Ruby.
 ```
 2. Check that the project is empty with `oc get all`.
 3. Break the project by adding the same egress IP as other project:
+
    a. `oc new-project cncf-demo-copy`
+
    b. `oc patch netnamespace cncf-demo --type=merge -p '{"egressIPs": ["192.168.1.99"]}'`
+   
    c. `oc patch netnamespace cncf-demo-copy --type=merge -p '{"egressIPs": ["192.168.1.99"]}'`
 4. Check the configuration was applied:
 ```
@@ -49,8 +52,11 @@ cncf-demo                                          8976363    ["192.168.1.99"]
 cncf-demo-copy                                     81310      ["192.168.1.99"]
 ```
 5. Restart the IO pod to force the data upload:
+   
     a. `oc project openshift-insights`
+    
     b. `io_pod=$(oc get pods | tail -n1 | awk '{print $1;}')`
+    
     c. `oc delete pod $io_pod`
 6. Visit the console. If no new issues are found, wait for some minutes.
 7. The we will be able to see "The OpenShift cluster drops traffic when two NetNamespaces contain the same egress IP".
