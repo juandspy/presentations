@@ -16,6 +16,8 @@ But it's recommended to follow the instructions to check that all prerequisites 
 
 This command will deploy a cluster in AWS and will last 72 hours. You may have to wait for ~30 minutes for the cluster to be up ad running. Once deployed you will have access to the cluster's console. The user, pass and console URL are shown in the output.
 
+You can then press on your profile (top right side), then on "Copy login command" and copy the `oc login ...` command in your terminal. Now you'll be able to launch `oc` commands against the cluster.
+
 ## 2. Explore the OpenShift console
 
 You can then check all the available options in the left side of the console: creating projects, managing workloads, networking, users, storage, etc.
