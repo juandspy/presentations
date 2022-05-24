@@ -58,6 +58,13 @@ cncf-demo-copy                                     81310      ["192.168.1.99"]
     b. `io_pod=$(oc get pods | tail -n1 | awk '{print $1;}')`
     
     c. `oc delete pod $io_pod`
+
+    d. Or the one liner command: 
+    
+    ```
+    oc delete pod $(oc get pods -n openshift-insights | tail -n1 | awk '{print $1;}') -n openshift-insights
+    ```
+
 6. Visit the console. If no new issues are found, wait for some minutes.
 7. The we will be able to see "The OpenShift cluster drops traffic when two NetNamespaces contain the same egress IP".
 
@@ -72,10 +79,9 @@ oc patch netnamespace cncf-demo-copy --type=merge -p '{"egressIPs": ["192.168.1.
 ```
 
 Once patched we can reload the advisor the same way we did in the previous section:
+
 ```
-oc project openshift-insights
-io_pod=$(oc get pods | tail -n1 | awk '{print $1;}')
-oc delete pod $io_pod
+oc delete pod $(oc get pods -n openshift-insights | tail -n1 | awk '{print $1;}') -n openshift-insights
 ```
 
 Wait for the recommendations to be updated...
@@ -102,10 +108,9 @@ oc patch hostsubnet <node1> --type=merge -p '{"egressIPs": ["192.168.1.99"]}'
 oc patch hostsubnet <node2> --type=merge -p '{"egressIPs": ["192.168.1.100"]}'
 ```
 3. Refresh the advisor:
+
 ```
-oc project openshift-insights
-io_pod=$(oc get pods | tail -n1 | awk '{print $1;}')
-oc delete pod $io_pod
+oc delete pod $(oc get pods -n openshift-insights | tail -n1 | awk '{print $1;}') -n openshift-insights
 ```
 
 ## 5. Clean up the cluster
