@@ -119,8 +119,8 @@ oc delete pod $(oc get pods -n openshift-insights | tail -n1 | awk '{print $1;}'
 
 Delete the projects:
 ```
-oc delete project/project
-oc delete project/project-copy
+oc delete project/cncf-demo
+oc delete project/cncf-demo-copy
 ```
 
 Get the host subnets to the original state (use the nodes from the previous step):
