@@ -1,6 +1,6 @@
 # CNCF Demo: Insights Advisor for Red Hat OpenShift
 
-Find the slides at #TODO: publish the slides.
+Find the slides at [slides.odp](slides.odp).
 
 ##  1. Create a cluster
 
